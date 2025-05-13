@@ -1,0 +1,22 @@
+/**
+ * Copy style trong đây và paste và style.css của theme
+ */
+
+/*---------- Widget Taxonomy List ---------- */
+.widget_taxonomy_list_widget .taxonomy-list li {
+    position: relative;
+}
+
+.widget_taxonomy_list_widget .taxonomy-list > li > ul {
+    padding-left: 20px;
+}
+
+.widget_taxonomy_list_widget .taxonomy-list li .term-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.widget_taxonomy_list_widget .taxonomy-list li .term-wrapper .term-thumbnail {
+    width: 32px;
+    height: 32px;
+}
