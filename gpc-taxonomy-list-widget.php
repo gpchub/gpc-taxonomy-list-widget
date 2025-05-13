@@ -24,6 +24,7 @@ class Gpc_Taxonomy_List_Widget extends WP_Widget {
         $show_count     = !empty($instance['show_count']);
         $orderby = !empty($instance['orderby']) ? $instance['orderby'] : 'name';
         $order = !empty($instance['order']) ? $instance['order'] : 'ASC';
+        $custom_class = !empty($instance['custom_class']) ? sanitize_html_class($instance['custom_class']) : '';
 
         echo $args['before_widget'];
         if (!empty($title)) {
@@ -49,7 +50,7 @@ class Gpc_Taxonomy_List_Widget extends WP_Widget {
         $terms = get_terms($args_terms);
 
         if (!empty($terms) && !is_wp_error($terms)) {
-            echo '<ul class="taxonomy-list">';
+            echo '<ul class="taxonomy-list ' . esc_attr($custom_class) . '">';
             if ($show_hierarchy) {
                 $term_tree = $this->build_term_tree($terms);
                 $this->render_term_tree($term_tree, $taxonomy, $show_thumb, $show_count);
@@ -164,6 +165,12 @@ class Gpc_Taxonomy_List_Widget extends WP_Widget {
                 <?php _e('Show post count'); ?>
             </label>
         </p>
+        <p>
+            <label for="<?php echo esc_attr($this->get_field_id('custom_class')); ?>"><?php _e('Custom CSS class for list:'); ?></label>
+            <input class="widefat" id="<?php echo esc_attr($this->get_field_id('custom_class')); ?>"
+                name="<?php echo esc_attr($this->get_field_name('custom_class')); ?>" type="text"
+                value="<?php echo esc_attr($instance['custom_class'] ?? ''); ?>">
+        </p>
         <?php
     }
 
@@ -178,6 +185,7 @@ class Gpc_Taxonomy_List_Widget extends WP_Widget {
         $instance['show_count']     = isset($new_instance['show_count']) ? (bool) $new_instance['show_count'] : false;
         $instance['orderby'] = in_array($new_instance['orderby'], ['name', 'id', 'menu_order']) ? $new_instance['orderby'] : 'name';
         $instance['order'] = in_array($new_instance['order'], ['asc', 'desc']) ? $new_instance['order'] : 'asc';
+        $instance['custom_class'] = sanitize_html_class($new_instance['custom_class']);
 
         return $instance;
     }
